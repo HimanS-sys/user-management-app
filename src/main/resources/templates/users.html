@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.com">
+<head>
+    <meta charset="UTF-8">
+    <title>User Management</title>
+    <!-- Link to your CSS file -->
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}" />
+</head>
+<body>
+<h1>User Management</h1>
+
+<!-- Add User Form -->
+<h2>Add User</h2>
+<form th:action="@{/users}" th:object="${user}" method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" th:field="*{name}" required="required" />
+    <span th:if="${#fields.hasErrors('name')}" class="error" th:errors="*{name}">Name Error</span>
+    <label for="email">Email:</label>
+    <input type="email" id="email" th:field="*{email}" required="required" />
+    <span th:if="${#fields.hasErrors('email')}" class="error" th:errors="*{email}">Email Error</span>
+    <button type="submit">Add User</button>
+</form>
+
+<!-- User List -->
+<h2>User List</h2>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.email}"></td>
+        <td>
+            <a th:href="@{'/users/edit/' + ${user.id}}">Edit</a>
+            <a th:href="@{'/users/delete/' + ${user.id}}">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Pagination -->
+<div class="pagination">
+    <span th:if="${currentPage > 10 - 1}">
+        <a th:href="@{'/users?page=' + ${currentPage - 10}}">Previous</a>
+    </span>
+    <span th:unless="${currentPage > 10 - 1}">
+        <a th:href="@{'/users?page=0'}">Previous</a>
+    </span>
+    <span th:each="i : ${#numbers.sequence(T(java.lang.Math).max(0, currentPage) , T(java.lang.Math).min(currentPage + 10 - 1, totalPages - 1))}">
+        <a th:classappend="${i == currentPage}? 'active' : ''"
+           th:href="@{'/users?page=' + ${i}}">[[${i+1}]]</a>
+    </span>
+    <span th:if="${totalPages - currentPage > 10 - 1}">
+        <a th:href="@{'/users?page=' + ${currentPage + 10}}">Next</a>
+    </span>
+</div>
+</body>
+</html>
+
+
+
