@@ -9,7 +9,7 @@
 5. Run the following command to build the project: `mvn clean install`.
 6. Once the build is successful, run the application with the command: `mvn spring-boot:run`.
 
-## Video:
+## Demo:
 
 https://github.com/HimanS-sys/user-management-app/assets/68765011/6dcb0422-f542-4c7a-a860-3e98a0a25879
 
